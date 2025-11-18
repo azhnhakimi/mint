@@ -1,11 +1,13 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import MonthlyTransactionDataPanel from "@/components/MonthlyTransactionDataPanel";
 import TransactionItem from "@/components/TransactionItem";
 import { mockTransactions } from "@/data/transactionsMockData";
+import { transaction } from "@/types/transaction";
 
 const TransactionsIndex = () => {
   // Store current selected month (default: current month)
@@ -38,6 +40,14 @@ const TransactionsIndex = () => {
     });
   }, [currentDate]);
 
+  const renderItem = useCallback(
+    ({ item }: { item: transaction }) => <TransactionItem transaction={item} />,
+    []
+  );
+
+  // ---- Memoized keyExtractor ----
+  const keyExtractor = useCallback((item: transaction) => item.id, []);
+
   return (
     <SafeAreaView className="flex-1 w-full pt-6 px-4">
       {/* MONTH NAVIGATOR */}
@@ -51,11 +61,17 @@ const TransactionsIndex = () => {
         </TouchableOpacity>
       </View>
 
+      {/* DATA PANEL */}
+      <MonthlyTransactionDataPanel
+        data={filteredTransactions}
+        date={currentDate}
+      />
+
       {/* FLASHLIST */}
       <FlashList
         data={filteredTransactions}
-        renderItem={({ item }) => <TransactionItem transaction={item} />}
-        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
         showsVerticalScrollIndicator={false}
       />
     </SafeAreaView>

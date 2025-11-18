@@ -6,17 +6,22 @@ import {
 import { formatDateDDMMYYYY } from "@/lib/utils";
 import { transaction } from "@/types/transaction";
 import { MaterialIcons } from "@expo/vector-icons";
+import { memo, useMemo } from "react";
 import { Text, View } from "react-native";
 
 const TransactionItem = ({ transaction }: { transaction: transaction }) => {
   const iconName = getCategoryIcon(transaction.category);
   const categoryColor = getCategoryColor(transaction.category);
   const iconColor = transaction.category === "personalCare" ? "black" : "white";
+  const iconContainerStyle = useMemo(
+    () => [{ backgroundColor: categoryColor }],
+    [categoryColor]
+  );
 
   return (
     <View className="flex-row items-center p-3 bg-white rounded-xl mb-2">
       <View
-        style={{ backgroundColor: categoryColor }}
+        style={iconContainerStyle}
         className="w-10 h-10 rounded-full flex items-center justify-center border border-gray-200"
       >
         <MaterialIcons name={iconName} size={22} color={iconColor} />
@@ -39,4 +44,4 @@ const TransactionItem = ({ transaction }: { transaction: transaction }) => {
   );
 };
 
-export default TransactionItem;
+export default memo(TransactionItem);

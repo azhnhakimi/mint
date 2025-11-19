@@ -69,7 +69,10 @@ const TransactionsIndex = () => {
       />
 
       {/* CTA */}
-      <View className="flex flex-row justify-center items-center">
+      <View
+        className="flex flex-row justify-center items-center"
+        style={{ marginBottom: 8 }}
+      >
         <Text className="flex-1 font-semibold text-2xl">Transactions</Text>
         <Link href="/transactions/create" asChild>
           <TouchableOpacity

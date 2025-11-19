@@ -8,6 +8,7 @@ import MonthlyTransactionDataPanel from "@/components/MonthlyTransactionDataPane
 import TransactionItem from "@/components/TransactionItem";
 import { mockTransactions } from "@/data/transactionsMockData";
 import { transaction } from "@/types/transaction";
+import { Link } from "expo-router";
 
 const TransactionsIndex = () => {
   // Store current selected month (default: current month)
@@ -49,7 +50,7 @@ const TransactionsIndex = () => {
   const keyExtractor = useCallback((item: transaction) => item.id, []);
 
   return (
-    <SafeAreaView className="flex-1 w-full pt-6 px-4">
+    <SafeAreaView className="flex-1 w-full px-4 pt-6" edges={["top"]}>
       {/* MONTH NAVIGATOR */}
       <View className="flex-row justify-between items-center mb-4">
         <TouchableOpacity onPress={prevMonth}>
@@ -67,8 +68,30 @@ const TransactionsIndex = () => {
         date={currentDate}
       />
 
+      {/* CTA */}
+      <View className="flex flex-row justify-center items-center">
+        <Text className="flex-1 font-semibold text-2xl">Transactions</Text>
+        <Link href="/transactions/create" asChild>
+          <TouchableOpacity
+            className="flex flex-row justify-center items-center"
+            style={{
+              backgroundColor: "black",
+              paddingLeft: 7,
+              paddingRight: 12,
+              paddingVertical: 5,
+              borderRadius: 6,
+            }}
+          >
+            <MaterialIcons name="add" size={20} color="white" />
+            <Text className="text-white font-semibold">New</Text>
+          </TouchableOpacity>
+        </Link>
+      </View>
+
       {/* FLASHLIST */}
       <FlashList
+        className="flex-1"
+        style={{ marginTop: 8 }}
         data={filteredTransactions}
         renderItem={renderItem}
         keyExtractor={keyExtractor}

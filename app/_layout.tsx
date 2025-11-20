@@ -1,4 +1,4 @@
-import { ClerkProvider, SignedIn, SignedOut } from "@clerk/clerk-expo";
+import { ClerkProvider, SignedOut } from "@clerk/clerk-expo";
 import { tokenCache } from "@clerk/clerk-expo/token-cache";
 import { Redirect, Slot } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -8,13 +8,13 @@ export default function RootLayout() {
   return (
     <ClerkProvider tokenCache={tokenCache}>
       <SafeAreaProvider>
-        <SignedOut>
+        {/* <SignedOut>
           <Redirect href="/(auth)/sign-in" />
-        </SignedOut>
+        </SignedOut> */}
 
-        <SignedIn>
+        <SignedOut>
           <Redirect href="/(tabs)/dashboard" />
-        </SignedIn>
+        </SignedOut>
 
         <Slot />
       </SafeAreaProvider>

@@ -1,6 +1,8 @@
 import { SignOutButton } from "@/components/SignOutButton";
 import { useAuth, useUser } from "@clerk/clerk-expo";
-import { Text } from "react-native";
+import Constants from "expo-constants";
+import { Text, TouchableOpacity } from "react-native";
+import { showMessage } from "react-native-flash-message";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const BudgetIndex = () => {
@@ -18,6 +20,25 @@ const BudgetIndex = () => {
         Feature coming soon!
       </Text>
       <SignOutButton />
+
+      <TouchableOpacity
+        style={{
+          backgroundColor: "#212122",
+          padding: 10,
+          marginTop: 20,
+          borderRadius: 5,
+        }}
+        onPress={() => {
+          showMessage({
+            message: "This is a flash message",
+            description: "Simple message",
+            type: "danger",
+            statusBarHeight: Constants.statusBarHeight,
+          });
+        }}
+      >
+        <Text style={{ color: "#fff" }}>Press Me</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };

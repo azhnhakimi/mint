@@ -26,7 +26,7 @@ const AnalyticsPieContent = ({ categoryTotals }: AnalyticsPieContentProps) => {
         marginVertical: 12,
       }}
     >
-      <PieChart data={pieChartData} />
+      <PieChart data={pieChartData} radius={80} />
       <View style={{ width: "100%" }}>
         {categoryTotals.map((item, index) => {
           const percentage = total > 0 ? (item.value / total) * 100 : 0;

@@ -23,6 +23,7 @@
     "@rn-primitives/slot": "^1.2.0",
     "@rn-primitives/tabs": "^1.2.0",
     "@shopify/flash-list": "2.0.2",
+    "@supabase/supabase-js": "^2.84.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",

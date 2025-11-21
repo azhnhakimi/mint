@@ -162,7 +162,7 @@ const TransactionForm = ({
           style={styles.button}
           onPress={() =>
             onSubmit({
-              name,
+              name: name.trim(),
               amount,
               date: new Date(date),
               category,
@@ -171,7 +171,7 @@ const TransactionForm = ({
           }
         >
           <Text style={styles.buttonText}>
-            {initialData ? "Save" : "Create"}
+            {initialData?.id ? "Save" : "Create"}
           </Text>
         </TouchableOpacity>
       </View>

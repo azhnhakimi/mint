@@ -22,9 +22,16 @@ export default function SignInScreen() {
 
   if (!authIsLoaded || !isLoaded) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#101D22",
+        }}
+      >
         <ActivityIndicator size="large" />
-        <Text style={{ marginTop: 10 }}>Loading...</Text>
+        <Text style={{ marginTop: 10, color: "#ffffff" }}>Loading...</Text>
       </View>
     );
   }
@@ -51,8 +58,22 @@ export default function SignInScreen() {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", padding: 20 }}>
-      <Text style={{ fontSize: 28, fontWeight: "bold", marginBottom: 20 }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        padding: 20,
+        backgroundColor: "#101D22",
+      }}
+    >
+      <Text
+        style={{
+          fontSize: 28,
+          fontWeight: "bold",
+          marginBottom: 20,
+          color: "#ffffff",
+        }}
+      >
         Sign In
       </Text>
 
@@ -62,19 +83,25 @@ export default function SignInScreen() {
         onChangeText={setIdentifier}
         autoCapitalize="none"
         placeholder="Username or Email"
+        placeholderTextColor={"#8796A9"}
         style={{
-          backgroundColor: "#eee",
+          backgroundColor: "#1E2C33",
           padding: 15,
-          borderRadius: 10,
+          borderWidth: 1,
+          borderColor: "#394353",
+          borderRadius: 6,
           marginBottom: 10,
+          color: "#ffffff",
         }}
       />
 
       {/* PASSWORD FIELD WITH SHOW/HIDE */}
       <View
         style={{
-          backgroundColor: "#eee",
-          borderRadius: 10,
+          backgroundColor: "#1E2C33",
+          borderWidth: 1,
+          borderColor: "#394353",
+          borderRadius: 6,
           marginBottom: 20,
           flexDirection: "row",
           alignItems: "center",
@@ -86,14 +113,16 @@ export default function SignInScreen() {
           onChangeText={setPassword}
           secureTextEntry={!showPassword}
           placeholder="Password"
+          placeholderTextColor={"#8796A9"}
           style={{
             flex: 1,
             padding: 15,
+            color: "#ffffff",
           }}
         />
 
         <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-          <Text style={{ fontWeight: "600" }}>
+          <Text style={{ fontWeight: "600", color: "#ffffff" }}>
             {showPassword ? "Hide" : "Show"}
           </Text>
         </TouchableOpacity>
@@ -104,7 +133,7 @@ export default function SignInScreen() {
         onPress={!loading ? onSignInPress : undefined}
         disabled={loading}
         style={{
-          backgroundColor: loading ? "#555" : "black",
+          backgroundColor: loading ? "#8796A9" : "#11A4D4",
           opacity: loading ? 0.6 : 1,
           padding: 15,
           borderRadius: 10,
@@ -125,9 +154,9 @@ export default function SignInScreen() {
 
       {/* SIGN UP LINK */}
       <View style={{ flexDirection: "row", justifyContent: "center" }}>
-        <Text>Don't have an account? </Text>
+        <Text style={{ color: "#ffffff" }}>Don't have an account? </Text>
         <Link href="/(auth)/sign-up">
-          <Text style={{ fontWeight: "bold" }}>Sign up</Text>
+          <Text style={{ fontWeight: "bold", color: "#ffffff" }}>Sign up</Text>
         </Link>
       </View>
     </View>

@@ -63,9 +63,9 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     paddingVertical: 6,
     paddingHorizontal: 8,
+    height: "auto",
   },
   containerInner: {
-    flex: 1,
     flexDirection: "row",
     backgroundColor: "#0F3845",
     paddingVertical: 6,

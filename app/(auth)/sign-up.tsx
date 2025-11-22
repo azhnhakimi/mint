@@ -26,9 +26,16 @@ export default function SignUpScreen() {
 
   if (!isLoaded) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#101D22",
+        }}
+      >
         <ActivityIndicator size="large" />
-        <Text style={{ marginTop: 10 }}>Loading...</Text>
+        <Text style={{ marginTop: 10, color: "#ffffff" }}>Loading...</Text>
       </View>
     );
   }
@@ -66,8 +73,22 @@ export default function SignUpScreen() {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", padding: 20 }}>
-      <Text style={{ fontSize: 28, fontWeight: "bold", marginBottom: 20 }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        padding: 20,
+        backgroundColor: "#101D22",
+      }}
+    >
+      <Text
+        style={{
+          fontSize: 28,
+          fontWeight: "bold",
+          marginBottom: 20,
+          color: "#ffffff",
+        }}
+      >
         Create your account
       </Text>
 
@@ -76,12 +97,16 @@ export default function SignUpScreen() {
         value={username}
         onChangeText={setUsername}
         placeholder="Username"
+        placeholderTextColor={"#8796A9"}
         autoCapitalize="none"
         style={{
-          backgroundColor: "#eee",
+          backgroundColor: "#1E2C33",
           padding: 15,
-          borderRadius: 10,
+          borderWidth: 1,
+          borderColor: "#394353",
+          borderRadius: 6,
           marginBottom: 10,
+          color: "#ffffff",
         }}
       />
 
@@ -90,74 +115,81 @@ export default function SignUpScreen() {
         value={emailAddress}
         onChangeText={setEmailAddress}
         placeholder="Email"
+        placeholderTextColor={"#8796A9"}
         autoCapitalize="none"
         keyboardType="email-address"
         style={{
-          backgroundColor: "#eee",
+          backgroundColor: "#1E2C33",
           padding: 15,
-          borderRadius: 10,
+          borderWidth: 1,
+          borderColor: "#394353",
+          borderRadius: 6,
           marginBottom: 10,
+          color: "#ffffff",
         }}
       />
 
       {/* PASSWORD */}
       <View
         style={{
-          position: "relative",
+          backgroundColor: "#1E2C33",
+          borderWidth: 1,
+          borderColor: "#394353",
+          borderRadius: 6,
           marginBottom: 10,
+          flexDirection: "row",
+          alignItems: "center",
+          paddingRight: 10,
         }}
       >
         <TextInput
           value={password}
           onChangeText={setPassword}
           placeholder="Password"
+          placeholderTextColor={"#8796A9"}
           secureTextEntry={!showPassword}
           style={{
-            backgroundColor: "#eee",
+            flex: 1,
             padding: 15,
-            borderRadius: 10,
-            paddingRight: 50,
+            color: "#ffffff",
           }}
         />
 
-        <TouchableOpacity
-          onPress={() => setShowPassword(!showPassword)}
-          style={{
-            position: "absolute",
-            right: 15,
-            top: 18,
-          }}
-        >
-          <Text style={{ fontWeight: "bold" }}>
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          <Text style={{ fontWeight: "bold", color: "#ffffff" }}>
             {showPassword ? "Hide" : "Show"}
           </Text>
         </TouchableOpacity>
       </View>
 
       {/* CONFIRM PASSWORD */}
-      <View style={{ position: "relative", marginBottom: 5 }}>
+      <View
+        style={{
+          backgroundColor: "#1E2C33",
+          borderWidth: 1,
+          borderColor: "#394353",
+          borderRadius: 6,
+          marginBottom: 20,
+          flexDirection: "row",
+          alignItems: "center",
+          paddingRight: 10,
+        }}
+      >
         <TextInput
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           placeholder="Confirm Password"
+          placeholderTextColor={"#8796A9"}
           secureTextEntry={!showConfirm}
           style={{
-            backgroundColor: "#eee",
+            flex: 1,
             padding: 15,
-            borderRadius: 10,
-            paddingRight: 50,
+            color: "#ffffff",
           }}
         />
 
-        <TouchableOpacity
-          onPress={() => setShowConfirm(!showConfirm)}
-          style={{
-            position: "absolute",
-            right: 15,
-            top: 18,
-          }}
-        >
-          <Text style={{ fontWeight: "bold" }}>
+        <TouchableOpacity onPress={() => setShowConfirm(!showConfirm)}>
+          <Text style={{ fontWeight: "bold", color: "#ffffff" }}>
             {showConfirm ? "Hide" : "Show"}
           </Text>
         </TouchableOpacity>
@@ -177,7 +209,7 @@ export default function SignUpScreen() {
         onPress={!loading ? onSignUpPress : undefined}
         disabled={loading}
         style={{
-          backgroundColor: loading ? "#555" : "black",
+          backgroundColor: loading ? "#8796A9" : "#11A4D4",
           opacity: loading ? 0.6 : 1,
           padding: 15,
           borderRadius: 10,
@@ -198,9 +230,9 @@ export default function SignUpScreen() {
       </TouchableOpacity>
 
       <View style={{ flexDirection: "row", justifyContent: "center" }}>
-        <Text>Already have an account? </Text>
+        <Text style={{ color: "#ffffff" }}>Already have an account? </Text>
         <Link href="/(auth)/sign-in">
-          <Text style={{ fontWeight: "bold" }}>Sign in</Text>
+          <Text style={{ fontWeight: "bold", color: "#ffffff" }}>Sign in</Text>
         </Link>
       </View>
     </View>

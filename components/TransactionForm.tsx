@@ -1,4 +1,3 @@
-// components/TransactionForm.tsx
 import { categories, formatCategory } from "@/constants/categories";
 import { transaction } from "@/types/transaction";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -7,6 +6,7 @@ import {
   BottomSheetModal,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
+import { format } from "date-fns";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
   StyleSheet,
@@ -15,9 +15,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-
-// NEW CALENDAR LIB
-import { format } from "date-fns";
 import { Calendar } from "react-native-calendars";
 
 type TransactionFormProps = {
@@ -25,17 +22,22 @@ type TransactionFormProps = {
   onSubmit: (data: Partial<transaction>) => void;
 };
 
+const getLocalISODate = (d: Date) => {
+  const tzOffset = d.getTimezoneOffset() * 60000;
+  return new Date(d.getTime() - tzOffset).toISOString().split("T")[0];
+};
+
 const TransactionForm = ({
   initialData = {},
   onSubmit,
 }: TransactionFormProps) => {
-  const todayISO = new Date().toISOString().split("T")[0];
-  const todayDisplay = format(new Date(), "dd/MM/yyyy");
+  const today = new Date();
+  const todayISO = getLocalISODate(today);
 
   const [name, setName] = useState(initialData.name || "");
   const [amount, setAmount] = useState(initialData?.amount?.toString() || "");
   const [date, setDate] = useState(
-    initialData.date?.toISOString().split("T")[0] || todayISO
+    initialData.date ? getLocalISODate(new Date(initialData.date)) : todayISO
   );
   const [category, setCategory] = useState(initialData.category || "");
   const [details, setDetails] = useState(initialData.details || "");
@@ -44,7 +46,6 @@ const TransactionForm = ({
     return format(new Date(isoDate), "dd/MM/yyyy");
   };
 
-  // Category bottom sheet
   const categorySheetRef = useRef<BottomSheetModal>(null);
   const categorySnapPoints = useMemo(() => ["25%", "50%"], []);
 
@@ -70,7 +71,6 @@ const TransactionForm = ({
     [handleCategorySelect]
   );
 
-  // Date bottom sheet
   const dateSheetRef = useRef<BottomSheetModal>(null);
   const dateSnapPoints = useMemo(() => ["60%"], []);
 
@@ -106,7 +106,6 @@ const TransactionForm = ({
           placeholderTextColor="#8796A9"
         />
 
-        {/* DATE PICKER BUTTON */}
         <Text style={styles.label}>Date</Text>
         <TouchableOpacity
           style={[
@@ -169,7 +168,6 @@ const TransactionForm = ({
               details,
             })
           }
-          className="rounded-lg"
         >
           <Text style={styles.buttonText}>
             {initialData?.id ? "Save" : "Create"}
@@ -177,7 +175,6 @@ const TransactionForm = ({
         </TouchableOpacity>
       </View>
 
-      {/* DATE BOTTOM SHEET */}
       <BottomSheetModal
         ref={dateSheetRef}
         index={1}
@@ -199,7 +196,6 @@ const TransactionForm = ({
         </BottomSheetView>
       </BottomSheetModal>
 
-      {/* CATEGORY BOTTOM SHEET */}
       <BottomSheetModal
         ref={categorySheetRef}
         index={1}

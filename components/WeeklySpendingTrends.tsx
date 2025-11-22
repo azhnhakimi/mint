@@ -1,28 +1,38 @@
-// components/WeeklySpendingTrends.tsx
+import { getTransactionsForWeek } from "@/src/api/transactions";
 import { transaction } from "@/types/transaction";
+import { useUser } from "@clerk/clerk-expo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { addDays, format, startOfWeek } from "date-fns";
-import React, { useMemo, useState } from "react";
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { useFocusEffect } from "expo-router";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
-
-type WeeklySpendingTrendsProps = {
-  transactions: transaction[];
-};
-
-const { width: screenWidth } = Dimensions.get("window");
 
 const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-const WeeklySpendingTrends = ({ transactions }: WeeklySpendingTrendsProps) => {
+const WeeklySpendingTrends = () => {
+  const { user } = useUser();
   const [currentWeekStart, setCurrentWeekStart] = useState(
     startOfWeek(new Date(), { weekStartsOn: 1 })
+  );
+  const [transactions, setTransactions] = useState<transaction[]>([]);
+
+  const fetchWeekTransactions = async () => {
+    if (!user) return;
+    const weekStart = currentWeekStart;
+    const weekEnd = addDays(weekStart, 6);
+    const { data } = await getTransactionsForWeek(user.id, weekStart, weekEnd);
+    setTransactions(data || []);
+  };
+
+  useEffect(() => {
+    fetchWeekTransactions();
+  }, [currentWeekStart, user]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchWeekTransactions();
+    }, [currentWeekStart, user])
   );
 
   const goPreviousWeek = () =>
@@ -34,24 +44,23 @@ const WeeklySpendingTrends = ({ transactions }: WeeklySpendingTrendsProps) => {
   const weeklyData = useMemo(() => {
     const weekStart = currentWeekStart;
 
-    const data = daysOfWeek.map((_, index) => {
+    return daysOfWeek.map((_, index) => {
       const dayDate = addDays(weekStart, index);
-      const dayTotal = transactions
+
+      const total = transactions
         .filter((t) => {
-          const tDate = new Date(t.date);
+          const d = new Date(t.date);
           return (
-            tDate.getFullYear() === dayDate.getFullYear() &&
-            tDate.getMonth() === dayDate.getMonth() &&
-            tDate.getDate() === dayDate.getDate()
+            d.getFullYear() === dayDate.getFullYear() &&
+            d.getMonth() === dayDate.getMonth() &&
+            d.getDate() === dayDate.getDate()
           );
         })
         .reduce((sum, t) => sum + parseFloat(t.amount), 0);
 
-      return { value: dayTotal, label: daysOfWeek[index] };
+      return { value: total, label: daysOfWeek[index] };
     });
-
-    return data;
-  }, [currentWeekStart, transactions]);
+  }, [transactions, currentWeekStart]);
 
   const weekDisplay = `${format(currentWeekStart, "MMM dd")} - ${format(
     addDays(currentWeekStart, 6),
@@ -144,10 +153,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 16,
-  },
-  arrow: {
-    fontSize: 20,
-    color: "#000",
   },
   weekDisplay: {
     fontSize: 14,

@@ -2,18 +2,21 @@ import CategoryProgressBar from "@/components/CategoryProgressBar";
 import WeeklySpendingTrends from "@/components/WeeklySpendingTrends";
 import { mockTransactions } from "@/data/transactionsMockData";
 import { transaction } from "@/types/transaction";
-import { useMemo, useState } from "react";
+import { useAuth } from "@clerk/clerk-expo";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   LayoutAnimation,
   Platform,
   ScrollView,
   Text,
   TouchableOpacity,
-  UIManager, // Import ScrollView
+  UIManager,
   View,
 } from "react-native";
 
-// Enable LayoutAnimation on Android
+import { getTransactionsByMonth } from "@/src/api/transactions";
+
 if (
   Platform.OS === "android" &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -22,6 +25,10 @@ if (
 }
 
 const DashboardIndex = () => {
+  const { userId } = useAuth();
+  const [transactions, setTransactions] = useState<transaction[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const currentDate = new Date();
   const currentMonthName = currentDate.toLocaleString("default", {
     month: "long",
@@ -38,34 +45,62 @@ const DashboardIndex = () => {
     });
   }, [currentDate]);
 
+  const fetchTransactions = useCallback(async () => {
+    if (!userId) return;
+    setLoading(true);
+    setError(null);
+
+    const { data, error } = await getTransactionsByMonth(
+      userId,
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1
+    );
+
+    if (error) {
+      setError(error.message);
+      setTransactions([]);
+    } else {
+      setTransactions(data || []);
+    }
+    setLoading(false);
+  }, [userId, currentDate]);
+
+  useEffect(() => {
+    fetchTransactions();
+  }, [fetchTransactions]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchTransactions();
+    }, [fetchTransactions])
+  );
+
   // Total amount
   const getTotalAmount = (transactions: transaction[]): number => {
     return transactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
   };
-  const totalAmount = getTotalAmount(filteredTransactions);
+  const totalAmount = getTotalAmount(transactions);
 
   // Group transactions by category and sum amounts
   const categoryTotals = useMemo(() => {
     const totals: Record<string, number> = {};
-    filteredTransactions.forEach((t) => {
+    transactions.forEach((t) => {
       if (!totals[t.category]) totals[t.category] = 0;
       totals[t.category] += parseFloat(t.amount);
     });
     return Object.entries(totals)
       .map(([category, value]) => ({ category, value }))
       .sort((a, b) => b.value - a.value);
-  }, [filteredTransactions]);
+  }, [transactions]);
 
   // State to toggle showing all categories
   const [showAll, setShowAll] = useState(false);
 
   const toggleShowAll = () => {
-    // Smooth animation
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShowAll((prev) => !prev);
   };
 
-  // Determine which categories to show
   const displayedCategories = showAll
     ? categoryTotals
     : categoryTotals.slice(0, 3);
@@ -95,35 +130,40 @@ const DashboardIndex = () => {
         </View>
 
         {/* CATEGORY PROGRESS BARS */}
-        <View style={{ marginTop: 16, marginBottom: 10 }}>
-          {displayedCategories.map((item) => (
-            <CategoryProgressBar
-              key={item.category}
-              category={item.category}
-              value={item.value}
-              max={totalAmount}
-            />
-          ))}
+        {displayedCategories.length > 0 && (
+          <View style={{ marginTop: 16, marginBottom: 10 }}>
+            {displayedCategories.map((item) => (
+              <CategoryProgressBar
+                key={item.category}
+                category={item.category}
+                value={item.value}
+                max={totalAmount}
+              />
+            ))}
 
-          {categoryTotals.length > 3 && (
-            <TouchableOpacity onPress={toggleShowAll} style={{ marginTop: 8 }}>
-              <Text
-                style={{
-                  color: "#fff",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                }}
+            {categoryTotals.length > 3 && (
+              <TouchableOpacity
+                onPress={toggleShowAll}
+                style={{ marginTop: 8 }}
               >
-                {showAll
-                  ? "View Less"
-                  : `View More (${categoryTotals.length - 3})`}
-              </Text>
-            </TouchableOpacity>
-          )}
-        </View>
+                <Text
+                  style={{
+                    color: "#fff",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  }}
+                >
+                  {showAll
+                    ? "View Less"
+                    : `View More (${categoryTotals.length - 3})`}
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        )}
 
         {/* WEEKLY SPENDINGS TRENDS */}
-        <WeeklySpendingTrends transactions={filteredTransactions} />
+        <WeeklySpendingTrends />
       </ScrollView>
     </View>
   );

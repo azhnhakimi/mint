@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import { format } from "date-fns";
 
 export const addTransaction = async (transaction: any) => {
   const { data, error } = await supabase
@@ -52,6 +53,24 @@ export const getTransactionsByMonth = async (
 
   return { data, error };
 };
+
+export async function getTransactionsForWeek(
+  userId: string,
+  start: Date,
+  end: Date
+) {
+  const startDate = format(start, "yyyy-MM-dd");
+  const endDate = format(end, "yyyy-MM-dd");
+
+  const { data, error } = await supabase
+    .from("transactions")
+    .select("*")
+    .eq("userId", userId)
+    .gte("date", startDate)
+    .lte("date", endDate);
+
+  return { data, error };
+}
 
 export const deleteTransaction = async (id: string) => {
   const { error } = await supabase.from("transactions").delete().eq("id", id);

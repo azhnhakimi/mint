@@ -1,3 +1,4 @@
+import ConfirmDeleteModal from "@/components/ConfirmDeleteModal";
 import DeleteTransactionButton from "@/components/DeleteTransactionButton";
 import EditTransactionButton from "@/components/EditTransactionButton";
 import {
@@ -5,20 +6,68 @@ import {
   getCategoryColor,
   getCategoryIcon,
 } from "@/constants/categories";
-import { mockTransactions } from "@/data/transactionsMockData";
 import { formatDateDDMMYYYY } from "@/lib/utils";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useLocalSearchParams } from "expo-router";
-import { useMemo } from "react";
-import { Text, View } from "react-native";
+import Constants from "expo-constants";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useMemo, useState } from "react";
+import { ActivityIndicator, Text, View } from "react-native";
+import { showMessage } from "react-native-flash-message";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import {
+  deleteTransaction,
+  getSingleTransaction,
+} from "@/src/api/transactions";
 
 export default function TransactionDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const transaction = useMemo(
-    () => mockTransactions.find((t) => t.id === id),
-    [id]
-  );
+  const [transaction, setTransaction] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  useEffect(() => {
+    async function fetchTransaction() {
+      const { data } = await getSingleTransaction(id);
+
+      setTransaction(data);
+      setLoading(false);
+    }
+
+    fetchTransaction();
+  }, [id]);
+
+  const handleDeleteTransaction = async (id: string) => {
+    const { error } = await deleteTransaction(id);
+
+    if (error) {
+      showMessage({
+        message: "Error",
+        description: "Something went wrong deleting the transaction.",
+        type: "danger",
+        statusBarHeight: Constants.statusBarHeight,
+      });
+      return;
+    }
+
+    showMessage({
+      message: "Success",
+      description: "Transaction deleted successfully!",
+      type: "success",
+      statusBarHeight: Constants.statusBarHeight,
+    });
+
+    setShowConfirm(false);
+    router.replace("/(tabs)/transactions");
+  };
+
+  if (loading) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   if (!transaction) {
     return (
@@ -92,8 +141,14 @@ export default function TransactionDetailScreen() {
 
       <View className="flex flex-col" style={{ marginBottom: 16, gap: 6 }}>
         <EditTransactionButton transactionId={transaction.id} />
-        <DeleteTransactionButton />
+        <DeleteTransactionButton onPress={() => setShowConfirm(true)} />
       </View>
+
+      <ConfirmDeleteModal
+        visible={showConfirm}
+        onCancel={() => setShowConfirm(false)}
+        onConfirm={() => handleDeleteTransaction(transaction.id)}
+      />
     </SafeAreaView>
   );
 }

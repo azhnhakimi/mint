@@ -8,3 +8,53 @@ export const addTransaction = async (transaction: any) => {
 
   return { data, error };
 };
+
+export const updateTransaction = async (id: any, transaction: any) => {
+  const { error } = await supabase
+    .from("transactions")
+    .update({
+      name: transaction.name,
+      amount: transaction.amount,
+      category: transaction.category,
+      details: transaction.details,
+      date: transaction.date.toISOString().split("T")[0],
+    })
+    .eq("id", id);
+
+  return { error };
+};
+
+export const getSingleTransaction = async (id: string) => {
+  const { data, error } = await supabase
+    .from("transactions")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  return { data, error };
+};
+
+export const getTransactionsByMonth = async (
+  userId: string,
+  year: number,
+  month: number
+) => {
+  const startDate = new Date(year, month - 1, 1);
+  const endDate = new Date(year, month, 1);
+
+  const { data, error } = await supabase
+    .from("transactions")
+    .select("*")
+    .eq("userId", userId)
+    .gte("date", startDate.toISOString().split("T")[0])
+    .lt("date", endDate.toISOString().split("T")[0])
+    .order("date", { ascending: false });
+
+  return { data, error };
+};
+
+export const deleteTransaction = async (id: string) => {
+  const { error } = await supabase.from("transactions").delete().eq("id", id);
+
+  return { error };
+};

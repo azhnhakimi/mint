@@ -44,7 +44,7 @@ const TransactionItem = ({ transaction }: { transaction: transaction }) => {
 
         <View className="flex flex-col justify-center items-end">
           <Text className="text-base font-semibold">
-            RM {transaction.amount}
+            RM {parseFloat(transaction.amount).toFixed(2)}
           </Text>
           <Text className="text-base text-gray-500">
             {formatDateDDMMYYYY(transaction.date)}

@@ -33,7 +33,7 @@ const TransactionForm = ({
   const todayDisplay = format(new Date(), "dd/MM/yyyy");
 
   const [name, setName] = useState(initialData.name || "");
-  const [amount, setAmount] = useState(initialData.amount || "");
+  const [amount, setAmount] = useState(initialData?.amount?.toString() || "");
   const [date, setDate] = useState(
     initialData.date?.toISOString().split("T")[0] || todayISO
   );

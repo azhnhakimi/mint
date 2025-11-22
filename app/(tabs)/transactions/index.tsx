@@ -1,23 +1,59 @@
+import { useAuth } from "@clerk/clerk-expo";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
-import { useCallback, useMemo, useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { useCallback, useEffect, useState } from "react";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import MonthlyTransactionDataPanel from "@/components/MonthlyTransactionDataPanel";
 import TransactionItem from "@/components/TransactionItem";
-import { mockTransactions } from "@/data/transactionsMockData";
+import { getTransactionsByMonth } from "@/src/api/transactions";
 import { transaction } from "@/types/transaction";
-import { Link } from "expo-router";
+import { Link, useFocusEffect } from "expo-router";
 
 const TransactionsIndex = () => {
-  // Store current selected month (default: current month)
+  const { userId } = useAuth();
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [transactions, setTransactions] = useState<transaction[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const formattedMonth = currentDate.toLocaleDateString("en-US", {
     month: "long",
     year: "numeric",
   });
+
+  const fetchTransactions = useCallback(async () => {
+    if (!userId) return;
+    setLoading(true);
+    setError(null);
+
+    const { data, error } = await getTransactionsByMonth(
+      userId,
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1
+    );
+
+    if (error) {
+      setError(error.message);
+      setTransactions([]);
+    } else {
+      setTransactions(data || []);
+    }
+    setLoading(false);
+  }, [userId, currentDate]);
+
+  // Runs when month or userId changes
+  useEffect(() => {
+    fetchTransactions();
+  }, [fetchTransactions]);
+
+  // Runs every time the screen becomes active (e.g. after editing)
+  useFocusEffect(
+    useCallback(() => {
+      fetchTransactions();
+    }, [fetchTransactions])
+  );
 
   const prevMonth = () => {
     const newDate = new Date(currentDate);
@@ -31,49 +67,35 @@ const TransactionsIndex = () => {
     setCurrentDate(newDate);
   };
 
-  const filteredTransactions = useMemo(() => {
-    return mockTransactions.filter((t) => {
-      const d = new Date(t.date);
-      return (
-        d.getMonth() === currentDate.getMonth() &&
-        d.getFullYear() === currentDate.getFullYear()
-      );
-    });
-  }, [currentDate]);
-
   const renderItem = useCallback(
     ({ item }: { item: transaction }) => <TransactionItem transaction={item} />,
     []
   );
 
-  // ---- Memoized keyExtractor ----
   const keyExtractor = useCallback((item: transaction) => item.id, []);
 
   return (
     <SafeAreaView className="flex-1 w-full px-4 pt-6" edges={["top"]}>
-      {/* MONTH NAVIGATOR */}
       <View className="flex-row justify-between items-center mb-4">
         <TouchableOpacity onPress={prevMonth}>
           <MaterialIcons name="chevron-left" size={28} />
         </TouchableOpacity>
+
         <Text className="text-lg font-semibold">{formattedMonth}</Text>
+
         <TouchableOpacity onPress={nextMonth}>
           <MaterialIcons name="chevron-right" size={28} />
         </TouchableOpacity>
       </View>
 
-      {/* DATA PANEL */}
-      <MonthlyTransactionDataPanel
-        data={filteredTransactions}
-        date={currentDate}
-      />
+      <MonthlyTransactionDataPanel data={transactions} date={currentDate} />
 
-      {/* CTA */}
       <View
         className="flex flex-row justify-center items-center"
         style={{ marginBottom: 8 }}
       >
         <Text className="flex-1 font-semibold text-2xl">Transactions</Text>
+
         <Link href="/transactions/create" asChild>
           <TouchableOpacity
             className="flex flex-row justify-center items-center"
@@ -91,15 +113,26 @@ const TransactionsIndex = () => {
         </Link>
       </View>
 
-      {/* FLASHLIST */}
-      <FlashList
-        className="flex-1"
-        style={{ marginTop: 8 }}
-        data={filteredTransactions}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        showsVerticalScrollIndicator={false}
-      />
+      {error && <Text className="text-red-500 text-center mb-2">{error}</Text>}
+
+      {loading ? (
+        <View className="flex-1 justify-center items-center">
+          <ActivityIndicator size="large" />
+        </View>
+      ) : transactions.length > 0 ? (
+        <FlashList
+          className="flex-1"
+          style={{ marginTop: 8 }}
+          data={transactions}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          showsVerticalScrollIndicator={false}
+        />
+      ) : (
+        <Text className="text-center mt-4" style={{ color: "#6b7280" }}>
+          No transactions found.
+        </Text>
+      )}
     </SafeAreaView>
   );
 };

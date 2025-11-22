@@ -12,7 +12,6 @@ import {
   UIManager, // Import ScrollView
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 // Enable LayoutAnimation on Android
 if (
@@ -72,12 +71,8 @@ const DashboardIndex = () => {
     : categoryTotals.slice(0, 3);
 
   return (
-    <SafeAreaView className="flex-1" edges={["top"]}>
-      <ScrollView
-        className="flex-1 px-4"
-        style={{ paddingVertical: 24, marginBottom: 16 }}
-        showsVerticalScrollIndicator={false}
-      >
+    <View className="flex-1">
+      <ScrollView className="flex-1 px-4" showsVerticalScrollIndicator={false}>
         {/* TOTAL AMOUNT */}
         <View
           style={{
@@ -88,6 +83,7 @@ const DashboardIndex = () => {
             padding: 16,
             borderRadius: 12,
             gap: 8,
+            marginTop: 16,
           }}
         >
           <Text style={{ color: "#9ca3af" }}>
@@ -131,7 +127,7 @@ const DashboardIndex = () => {
         {/* WEEKLY SPENDINGS TRENDS */}
         <WeeklySpendingTrends transactions={filteredTransactions} />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

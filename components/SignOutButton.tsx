@@ -1,9 +1,9 @@
 import { useClerk } from "@clerk/clerk-expo";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import * as Linking from "expo-linking";
-import { Text, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 export const SignOutButton = () => {
-  // Use `useClerk()` to access the `signOut()` function
   const { signOut } = useClerk();
   const handleSignOut = async () => {
     try {
@@ -11,8 +11,6 @@ export const SignOutButton = () => {
       // Redirect to your desired page
       Linking.openURL(Linking.createURL("/"));
     } catch (err) {
-      // See https://clerk.com/docs/custom-flows/error-handling
-      // for more info on error handling
       console.error(JSON.stringify(err, null, 2));
     }
   };
@@ -22,11 +20,10 @@ export const SignOutButton = () => {
       style={{
         backgroundColor: "#212122",
         padding: 10,
-        borderRadius: 5,
-        paddingHorizontal: 20,
       }}
+      className="rounded-full"
     >
-      <Text style={{ color: "white" }}>Sign out</Text>
+      <MaterialIcons name="logout" size={14} color="white" />
     </TouchableOpacity>
   );
 };

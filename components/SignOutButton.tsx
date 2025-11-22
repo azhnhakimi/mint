@@ -18,7 +18,7 @@ export const SignOutButton = () => {
     <TouchableOpacity
       onPress={handleSignOut}
       style={{
-        backgroundColor: "#212122",
+        backgroundColor: "#0F3845",
         padding: 10,
       }}
       className="rounded-full"

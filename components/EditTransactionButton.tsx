@@ -12,11 +12,13 @@ const EditTransactionButton = ({
   return (
     <Link href={`/transactions/${transactionId}/edit`} asChild>
       <TouchableOpacity
-        className="flex flex-row justify-center items-center rounded-xl gap-2"
-        style={{ backgroundColor: "#212122", padding: 8 }}
+        className="flex flex-row justify-center items-center rounded-lg gap-2 flex-1"
+        style={{ backgroundColor: "#104657", paddingVertical: 8 }}
       >
-        <MaterialIcons name={"edit"} size={22} color="white" />
-        <Text className="text-white text-lg font-semibold">Edit</Text>
+        <MaterialIcons name={"edit"} size={22} color="#11A4D4" />
+        <Text className="text-lg font-semibold" style={{ color: "#11A4D4" }}>
+          Edit
+        </Text>
       </TouchableOpacity>
     </Link>
   );

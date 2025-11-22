@@ -93,7 +93,7 @@ const TransactionForm = ({
           value={name}
           onChangeText={setName}
           placeholder="Transaction name"
-          placeholderTextColor="#555"
+          placeholderTextColor="#8796A9"
         />
 
         <Text style={styles.label}>Amount</Text>
@@ -103,7 +103,7 @@ const TransactionForm = ({
           onChangeText={setAmount}
           placeholder="0.00"
           keyboardType="numeric"
-          placeholderTextColor="#555"
+          placeholderTextColor="#8796A9"
         />
 
         {/* DATE PICKER BUTTON */}
@@ -120,10 +120,10 @@ const TransactionForm = ({
           onPress={openDateSheet}
           activeOpacity={0.7}
         >
-          <Text style={{ color: date ? "#000" : "#555", flex: 1 }}>
+          <Text style={{ color: date ? "#fff" : "#8796A9", flex: 1 }}>
             {date ? formatDisplayDate(date) : "Select a date"}
           </Text>
-          <MaterialIcons name="calendar-today" size={18} color="black" />
+          <MaterialIcons name="calendar-today" size={18} color="white" />
         </TouchableOpacity>
 
         <Text style={styles.label}>Category</Text>
@@ -131,12 +131,12 @@ const TransactionForm = ({
           style={[styles.input, { flexDirection: "row", alignItems: "center" }]}
           onPress={openCategorySheet}
         >
-          <Text style={{ color: category ? "#000" : "#555", flex: 1 }}>
+          <Text style={{ color: category ? "#fff" : "#8796A9", flex: 1 }}>
             {category.length > 0
               ? formatCategory(category)
               : "Select a category"}
           </Text>
-          <MaterialIcons name="arrow-drop-down" size={24} color="black" />
+          <MaterialIcons name="arrow-drop-down" size={24} color="white" />
         </TouchableOpacity>
 
         <Text style={styles.label}>Details</Text>
@@ -154,7 +154,7 @@ const TransactionForm = ({
           value={details}
           onChangeText={setDetails}
           placeholder="Optional details"
-          placeholderTextColor="#555"
+          placeholderTextColor="#8796A9"
           multiline
         />
 
@@ -169,6 +169,7 @@ const TransactionForm = ({
               details,
             })
           }
+          className="rounded-lg"
         >
           <Text style={styles.buttonText}>
             {initialData?.id ? "Save" : "Create"}
@@ -224,23 +225,23 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   label: {
-    color: "#000",
+    color: "#fff",
     fontWeight: "bold",
     marginBottom: 5,
     marginTop: 15,
   },
   input: {
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: "#394353",
     borderRadius: 6,
-    padding: 10,
-    color: "#000",
+    padding: 12,
+    color: "#fff",
+    backgroundColor: "#1E2C33",
   },
   button: {
     marginTop: 25,
-    backgroundColor: "#000",
+    backgroundColor: "#11A4D4",
     padding: 12,
-    borderRadius: 12,
     alignItems: "center",
   },
   buttonText: {

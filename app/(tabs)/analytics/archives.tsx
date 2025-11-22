@@ -93,6 +93,7 @@ export default function AnalyticsArchives() {
           padding: 10,
           flex: 1,
           paddingBottom: 24,
+          backgroundColor: "#101D22",
         }}
         showsVerticalScrollIndicator={false}
       >
@@ -110,16 +111,36 @@ export default function AnalyticsArchives() {
         >
           <Text
             className="text-xl font-semibold flex-1"
-            style={{ color: "#212122" }}
+            style={{ color: "#ffffff" }}
           >
             Past Months
           </Text>
-          <TouchableOpacity style={styles.btn} onPress={openYearSheet}>
+          <TouchableOpacity
+            style={[
+              styles.btn,
+              {
+                backgroundColor: "#0F172A",
+                borderWidth: 1,
+                borderColor: "#1E2A3C",
+              },
+            ]}
+            onPress={openYearSheet}
+          >
             <Text style={styles.btnText}>{selectedYear}</Text>
             <MaterialIcons name="arrow-drop-down" size={24} color="white" />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.btn} onPress={openMonthSheet}>
+          <TouchableOpacity
+            style={[
+              styles.btn,
+              {
+                backgroundColor: "#0F172A",
+                borderWidth: 1,
+                borderColor: "#1E2A3C",
+              },
+            ]}
+            onPress={openMonthSheet}
+          >
             <Text style={styles.btnText}>
               {format(new Date(selectedYear, selectedMonth), "MMMM")}
             </Text>
@@ -128,7 +149,18 @@ export default function AnalyticsArchives() {
         </View>
 
         {/* DISPLAY TOTAL */}
-        <View style={[styles.totalContainer, { backgroundColor: "" }]}>
+        <View
+          style={[
+            styles.totalContainer,
+            {
+              backgroundColor: "#0F172A",
+              borderWidth: 1,
+              borderColor: "#1E2A3C",
+              padding: 12,
+            },
+          ]}
+          className="rounded-lg"
+        >
           <Text style={styles.totalLabel}>
             {format(new Date(selectedYear, selectedMonth), "MMMM")}{" "}
             {selectedYear} Total Spending
@@ -167,10 +199,10 @@ export default function AnalyticsArchives() {
                   color={item.category === "personalCare" ? "black" : "white"}
                 />
               </View>
-              <Text className="flex-1 text-left text-lg font-semibold text-black">
+              <Text className="flex-1 text-left text-lg font-semibold text-white">
                 {formatCategory(item.category)}
               </Text>
-              <Text style={{ fontSize: 14, color: "#6b7280" }}>
+              <Text style={{ fontSize: 14, color: "#8796A9" }}>
                 RM {item.value.toFixed(2)}
               </Text>
             </View>
@@ -230,8 +262,8 @@ const styles = StyleSheet.create({
   btnText: { fontSize: 12, fontWeight: "600", color: "#ffffff" },
 
   totalContainer: { marginTop: 30 },
-  totalLabel: { fontSize: 14, color: "#555" },
-  totalValue: { fontSize: 24, fontWeight: "700", marginTop: 2 },
+  totalLabel: { fontSize: 14, color: "#8796A9" },
+  totalValue: { fontSize: 24, fontWeight: "700", marginTop: 2, color: "#fff" },
 
   sheetItem: {
     paddingVertical: 18,

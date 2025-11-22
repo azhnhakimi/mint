@@ -1,8 +1,5 @@
-import { SignOutButton } from "@/components/SignOutButton";
 import { useAuth, useUser } from "@clerk/clerk-expo";
-import Constants from "expo-constants";
-import { Text, TouchableOpacity } from "react-native";
-import { showMessage } from "react-native-flash-message";
+import { Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const BudgetIndex = () => {
@@ -13,32 +10,29 @@ const BudgetIndex = () => {
     user?.username || user?.primaryEmailAddress?.emailAddress || "Guest";
 
   return (
-    <SafeAreaView className="flex-1 items-center justify-center">
-      <Text>Hello {username}!</Text>
-      <Text>User ID: {userId}</Text>
-      <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>
-        Feature coming soon!
-      </Text>
-      <SignOutButton />
-
-      <TouchableOpacity
+    <SafeAreaView
+      className="flex-1 items-center justify-center"
+      style={{ backgroundColor: "#101D22" }}
+    >
+      <Text
         style={{
-          backgroundColor: "#212122",
-          padding: 10,
-          marginTop: 20,
-          borderRadius: 5,
-        }}
-        onPress={() => {
-          showMessage({
-            message: "This is a flash message",
-            description: "Simple message",
-            type: "danger",
-            statusBarHeight: Constants.statusBarHeight,
-          });
+          fontSize: 24,
+          fontWeight: "bold",
+          marginBottom: 20,
+          color: "#ffffff",
         }}
       >
-        <Text style={{ color: "#fff" }}>Press Me</Text>
-      </TouchableOpacity>
+        Feature coming soon!
+      </Text>
+      <Text
+        style={{
+          fontSize: 16,
+          marginBottom: 20,
+          color: "#8796A9",
+        }}
+      >
+        Stay Tuned.
+      </Text>
     </SafeAreaView>
   );
 };

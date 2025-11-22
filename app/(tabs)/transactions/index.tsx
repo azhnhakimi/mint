@@ -75,16 +75,22 @@ const TransactionsIndex = () => {
   const keyExtractor = useCallback((item: transaction) => item.id, []);
 
   return (
-    <SafeAreaView className="flex-1 w-full px-4 pt-6" edges={["top"]}>
+    <SafeAreaView
+      className="flex-1 w-full px-4 pt-6"
+      edges={["top"]}
+      style={{ backgroundColor: "#101D22" }}
+    >
       <View className="flex-row justify-between items-center mb-4">
         <TouchableOpacity onPress={prevMonth}>
-          <MaterialIcons name="chevron-left" size={28} />
+          <MaterialIcons name="chevron-left" size={28} color="white" />
         </TouchableOpacity>
 
-        <Text className="text-lg font-semibold">{formattedMonth}</Text>
+        <Text className="text-lg font-semibold text-white">
+          {formattedMonth}
+        </Text>
 
         <TouchableOpacity onPress={nextMonth}>
-          <MaterialIcons name="chevron-right" size={28} />
+          <MaterialIcons name="chevron-right" size={28} color="white" />
         </TouchableOpacity>
       </View>
 
@@ -94,13 +100,15 @@ const TransactionsIndex = () => {
         className="flex flex-row justify-center items-center"
         style={{ marginBottom: 8 }}
       >
-        <Text className="flex-1 font-semibold text-2xl">Transactions</Text>
+        <Text className="flex-1 font-semibold text-2xl text-white">
+          Transactions
+        </Text>
 
         <Link href="/transactions/create" asChild>
           <TouchableOpacity
             className="flex flex-row justify-center items-center"
             style={{
-              backgroundColor: "black",
+              backgroundColor: "#11A4D4",
               paddingLeft: 7,
               paddingRight: 12,
               paddingVertical: 5,
@@ -129,7 +137,7 @@ const TransactionsIndex = () => {
           showsVerticalScrollIndicator={false}
         />
       ) : (
-        <Text className="text-center mt-4" style={{ color: "#6b7280" }}>
+        <Text className="text-center mt-4" style={{ color: "#8796A9" }}>
           No transactions found.
         </Text>
       )}

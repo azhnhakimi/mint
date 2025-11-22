@@ -8,7 +8,10 @@ const Tab = createMaterialTopTabNavigator();
 
 export default function AnalyticsIndex() {
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: "#101D22" }}
+      edges={["top"]}
+    >
       <Tab.Navigator
         style={{ marginTop: 10 }}
         screenOptions={{

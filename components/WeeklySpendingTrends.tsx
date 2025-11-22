@@ -65,7 +65,7 @@ const WeeklySpendingTrends = ({ transactions }: WeeklySpendingTrendsProps) => {
         <TouchableOpacity
           onPress={goThisWeek}
           style={{
-            backgroundColor: "#121222",
+            backgroundColor: "#11A4D4",
             padding: 6,
             borderRadius: 6,
             paddingHorizontal: 14,
@@ -77,30 +77,33 @@ const WeeklySpendingTrends = ({ transactions }: WeeklySpendingTrendsProps) => {
 
       <View style={styles.navigation}>
         <TouchableOpacity onPress={goPreviousWeek}>
-          <MaterialIcons name="arrow-left" size={28} color="black" />
+          <MaterialIcons name="arrow-left" size={28} color="white" />
         </TouchableOpacity>
         <Text style={styles.weekDisplay}>{weekDisplay}</Text>
         <TouchableOpacity onPress={goNextWeek}>
-          <MaterialIcons name="arrow-right" size={28} color="black" />
+          <MaterialIcons name="arrow-right" size={28} color="white" />
         </TouchableOpacity>
       </View>
 
       <BarChart
         data={weeklyData}
-        color="#000"
+        frontColor="#11A4D4"
+        hideRules
+        barBorderTopLeftRadius={5}
+        barBorderTopRightRadius={5}
         noOfSections={4}
         yAxisThickness={0}
         yAxisColor="transparent"
         hideYAxisText
-        xAxisColor="black"
-        xAxisLabelTextStyle={{ textAlign: "center", color: "#1f2937" }}
+        xAxisColor="#8796A9"
+        xAxisLabelTextStyle={{ textAlign: "center", color: "#8796A9" }}
         height={200}
         showVerticalLines={false}
         initialSpacing={10}
         adjustToWidth={true}
         disableScroll={true}
         showValuesAsTopLabel={true}
-        topLabelTextStyle={{ fontSize: 12, color: "#4b5563" }}
+        topLabelTextStyle={{ fontSize: 12, color: "#8796A9" }}
         topLabelContainerStyle={{
           paddingBottom: 6,
           width: 32,
@@ -115,7 +118,7 @@ export default WeeklySpendingTrends;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: "#0F3845",
     borderRadius: 12,
     padding: 16,
     marginVertical: 12,
@@ -129,7 +132,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#000",
+    color: "#fff",
   },
   thisWeek: {
     color: "#fff",
@@ -148,7 +151,7 @@ const styles = StyleSheet.create({
   },
   weekDisplay: {
     fontSize: 14,
-    color: "#000",
+    color: "#fff",
     fontWeight: "600",
   },
 });

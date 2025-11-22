@@ -27,7 +27,10 @@ const TransactionItem = ({ transaction }: { transaction: transaction }) => {
       }}
       asChild
     >
-      <TouchableOpacity className="flex-row items-center p-3 bg-white rounded-xl mb-2">
+      <TouchableOpacity
+        className="flex-row items-center p-3 rounded-xl mb-2"
+        style={{ backgroundColor: "#141A1F" }}
+      >
         <View
           style={iconContainerStyle}
           className="w-10 h-10 rounded-full flex items-center justify-center border border-gray-200"
@@ -36,17 +39,22 @@ const TransactionItem = ({ transaction }: { transaction: transaction }) => {
         </View>
 
         <View className="flex-1 ml-3">
-          <Text className="font-semibold text-base">{transaction.name}</Text>
-          <Text className="text-sm text-gray-500">
+          <Text className="font-semibold text-base text-white">
+            {transaction.name}
+          </Text>
+          <Text className="text-sm " style={{ color: "#8796A9" }}>
             {formatCategory(transaction.category)}
           </Text>
         </View>
 
         <View className="flex flex-col justify-center items-end">
-          <Text className="text-base font-semibold">
+          <Text
+            className="text-base font-semibold"
+            style={{ color: "#EE4444" }}
+          >
             RM {parseFloat(transaction.amount).toFixed(2)}
           </Text>
-          <Text className="text-base text-gray-500">
+          <Text className="text-base " style={{ color: "#8796A9" }}>
             {formatDateDDMMYYYY(transaction.date)}
           </Text>
         </View>

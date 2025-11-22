@@ -102,12 +102,15 @@ const TransactionCreate = () => {
         className="flex-1"
         style={{
           paddingHorizontal: 14,
-          marginTop: 20,
           flexDirection: "column",
+          backgroundColor: "#101D22",
         }}
         edges={["top"]}
       >
-        <Text className="text-2xl font-semibold text-black">
+        <Text
+          className="text-2xl font-semibold text-white"
+          style={{ marginTop: 20 }}
+        >
           Create Transaction
         </Text>
         <TransactionForm onSubmit={handleSubmit} />

@@ -48,7 +48,17 @@ export default function AnalyticsLatestSpendings({ data }: Props) {
   }, [data]);
 
   return (
-    <View style={{ width: "100%", paddingVertical: 12 }}>
+    <View
+      style={{
+        width: "100%",
+        paddingVertical: 12,
+        backgroundColor: "#0F172A",
+        borderWidth: 1,
+        borderColor: "#1E2A3C",
+        overflow: "hidden",
+      }}
+      className="rounded-lg"
+    >
       {/* Total for last 6 months */}
       <Text
         style={{
@@ -56,39 +66,44 @@ export default function AnalyticsLatestSpendings({ data }: Props) {
           fontWeight: "500",
           marginBottom: 12,
           textAlign: "left",
-          paddingHorizontal: 8,
-          color: "#1e293b",
+          paddingHorizontal: 12,
+          color: "#fff",
         }}
       >
         Last 6 Months Spendings
       </Text>
 
       <View style={{ paddingHorizontal: 8 }}>
-        <Text style={{ fontSize: 14, color: "#4b5563" }}>Total Spending</Text>
-        <Text style={{ fontSize: 22, color: "#000000", fontWeight: "700" }}>
+        <Text style={{ fontSize: 14, color: "#8796A9" }}>Total Spending</Text>
+        <Text style={{ fontSize: 22, color: "#ffffff", fontWeight: "700" }}>
           RM {total.toFixed(2)}
         </Text>
       </View>
 
       <BarChart
         data={chartData}
-        color="#000"
+        hideRules
+        barBorderTopLeftRadius={5}
+        barBorderTopRightRadius={5}
+        frontColor="#11A4D4"
         noOfSections={4}
         adjustToWidth={true}
         disableScroll={true}
         height={260}
         isAnimated
         yAxisThickness={0}
+        yAxisExtraHeight={40}
         yAxisColor="transparent"
         hideYAxisText
         showVerticalLines={false}
-        xAxisLabelTextStyle={{ textAlign: "center", color: "#1f2937" }}
+        xAxisLabelTextStyle={{ textAlign: "center", color: "#8796A9" }}
         showValuesAsTopLabel={true}
-        topLabelTextStyle={{ fontSize: 12, color: "#4b5563" }}
+        xAxisColor="#8796A9"
+        topLabelTextStyle={{ fontSize: 12, color: "#8796A9" }}
         topLabelContainerStyle={{
           width: 36,
           alignSelf: "center",
-          marginBottom: 4,
+          paddingBottom: 6,
         }}
       />
     </View>

@@ -27,23 +27,25 @@ const AnalyticsSpendings = () => {
 
   return (
     <ScrollView
-      style={{ padding: 8, flex: 1 }}
+      style={{ padding: 8, flex: 1, backgroundColor: "#101D22" }}
       showsVerticalScrollIndicator={false}
     >
       <AnalyticsLatestSpendings data={mockTransactions} />
 
       <View
         style={{
-          backgroundColor: "#212122",
+          backgroundColor: "#0F172A",
           flexDirection: "column",
           justifyContent: "center",
           padding: 12,
           borderRadius: 12,
           gap: 6,
           marginVertical: 12,
+          borderWidth: 1,
+          borderColor: "#1E2A3C",
         }}
       >
-        <Text style={{ color: "#9ca3af" }}>Current Month Total Spendings</Text>
+        <Text style={{ color: "#8796A9" }}>Current Month Total Spendings</Text>
         <Text className="text-2xl font-semibold" style={{ color: "#FFFFFF" }}>
           RM {totalAmount.toFixed(2)}
         </Text>

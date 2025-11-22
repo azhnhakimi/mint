@@ -16,8 +16,8 @@ const CategoryProgressBar = ({
   max,
   category,
   height = 8,
-  backgroundColor = "#E0E0E0",
-  fillColor = "#000",
+  backgroundColor = "#334155",
+  fillColor = "#11A4D4",
 }: CategoryProgressBarProps) => {
   const percentage = Math.min(Math.max(value / max, 0), 1) * 100;
 
@@ -27,10 +27,12 @@ const CategoryProgressBar = ({
         className="flex flex-row justify-between items-end"
         style={{ marginBottom: 4 }}
       >
-        <Text className="text-gray-600 text-sm">
+        <Text className=" text-sm" style={{ color: "#8796A9" }}>
           {formatCategory(category)}
         </Text>
-        <Text className="text-gray-600 text-sm">RM{value.toFixed(2)}</Text>
+        <Text className="text-sm" style={{ color: "#8796A9" }}>
+          RM{value.toFixed(2)}
+        </Text>
       </View>
       <View style={[styles.container, { height, backgroundColor }]}>
         <View

@@ -71,12 +71,12 @@ const DashboardIndex = () => {
     : categoryTotals.slice(0, 3);
 
   return (
-    <View className="flex-1">
+    <View className="flex-1" style={{ backgroundColor: "#101D22" }}>
       <ScrollView className="flex-1 px-4" showsVerticalScrollIndicator={false}>
         {/* TOTAL AMOUNT */}
         <View
           style={{
-            backgroundColor: "#212122",
+            backgroundColor: "#0F3845",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
@@ -86,7 +86,7 @@ const DashboardIndex = () => {
             marginTop: 16,
           }}
         >
-          <Text style={{ color: "#9ca3af" }}>
+          <Text style={{ color: "#8796A9" }}>
             Total Used for the Month of {currentMonthName}
           </Text>
           <Text className="text-3xl font-semibold" style={{ color: "#FFFFFF" }}>
@@ -102,8 +102,6 @@ const DashboardIndex = () => {
               category={item.category}
               value={item.value}
               max={totalAmount}
-              fillColor="#000"
-              backgroundColor="#E0E0E0"
             />
           ))}
 
@@ -111,7 +109,7 @@ const DashboardIndex = () => {
             <TouchableOpacity onPress={toggleShowAll} style={{ marginTop: 8 }}>
               <Text
                 style={{
-                  color: "#000",
+                  color: "#fff",
                   fontWeight: "bold",
                   textAlign: "center",
                 }}

@@ -39,11 +39,11 @@ const AnalyticsCategorySpendings = ({
         <View className="flex flex-row justify-between items-center w-full">
           <Text
             className="text-base font-semibold flex-1"
-            style={{ color: "#5D5D5DFF", lineHeight: 16 }}
+            style={{ color: "#8796A9", lineHeight: 16 }}
           >
             <Text
               className="text-xl"
-              style={{ fontWeight: "800", color: "#212122" }}
+              style={{ fontWeight: "800", color: "#ffffff" }}
             >
               {format(currentDate, "MMMM")}
             </Text>
@@ -52,7 +52,7 @@ const AnalyticsCategorySpendings = ({
           <TabsList
             style={{
               height: "auto",
-              backgroundColor: "#0A0A0A",
+              backgroundColor: "#0F172A",
               padding: 6,
               borderRadius: 8,
               gap: 6,
@@ -62,7 +62,7 @@ const AnalyticsCategorySpendings = ({
               value="list"
               className="flex justify-center items-center"
               style={{
-                backgroundColor: tabValue === "list" ? "#262626" : "#0A0A0A",
+                backgroundColor: tabValue === "list" ? "#11A4D4" : "#0F172A",
               }}
             >
               <MaterialIcons
@@ -75,7 +75,7 @@ const AnalyticsCategorySpendings = ({
               value="pie"
               className="flex justify-center items-center"
               style={{
-                backgroundColor: tabValue === "pie" ? "#262626" : "#0A0A0A",
+                backgroundColor: tabValue === "pie" ? "#11A4D4" : "#0F172A",
               }}
             >
               <MaterialIcons

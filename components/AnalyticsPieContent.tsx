@@ -20,10 +20,13 @@ const AnalyticsPieContent = ({ categoryTotals }: AnalyticsPieContentProps) => {
 
   return (
     <View
-      className="flex-1 justify-center items-center"
+      className="flex-1 justify-center items-center rounded-lg"
       style={{
         paddingVertical: 12,
         marginVertical: 12,
+        backgroundColor: "#0F172A",
+        borderWidth: 1,
+        borderColor: "#1E2A3C",
       }}
     >
       <PieChart data={pieChartData} radius={80} />
@@ -44,14 +47,17 @@ const AnalyticsPieContent = ({ categoryTotals }: AnalyticsPieContentProps) => {
                     borderRadius: 6,
                     backgroundColor: getCategoryColor(item.category),
                     borderWidth: 1,
-                    borderColor: "#212122",
+                    borderColor: "#8796A9",
                   }}
                 />
-                <Text style={{ color: "#4b5563" }} className="text-base">
+                <Text style={{ color: "#8796A9" }} className="text-base">
                   {formatCategory(item.category)}
                 </Text>
               </View>
-              <Text className="text-base" style={{ fontWeight: "600" }}>
+              <Text
+                className="text-base text-white"
+                style={{ fontWeight: "600" }}
+              >
                 {percentage.toFixed(0)}%
               </Text>
             </View>

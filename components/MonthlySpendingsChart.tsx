@@ -49,15 +49,12 @@ export default function MonthlySpendingsChart({
   };
 
   const niceMaxValue = getNiceMaxValue(chartData);
-  const yAxisLabelWidth = 26;
-  const initialEndSpacing = 20 + 20;
-  const chartWidth = screenWidth - 32 - yAxisLabelWidth - initialEndSpacing;
-  const spacing =
-    chartData.length > 1 ? chartWidth / (chartData.length - 1) : chartWidth;
 
   return (
     <View className="">
       <LineChart
+        hideRules
+        width={screenWidth}
         key={`${month}-${year}`}
         data={chartData}
         curved
@@ -66,25 +63,25 @@ export default function MonthlySpendingsChart({
         animationDuration={800}
         noOfSections={niceMaxValue <= 50 ? 2 : 4}
         maxValue={niceMaxValue}
+        mostNegativeValue={0}
         yAxisThickness={0}
-        yAxisLabelWidth={yAxisLabelWidth}
         yAxisTextStyle={{ fontSize: 10, color: "gray" }}
         xAxisLabelTextStyle={{
           fontSize: 10,
           color: "gray",
           marginTop: 4,
         }}
-        spacing={spacing}
-        initialSpacing={20}
-        endSpacing={40}
         disableScroll
         yAxisExtraHeight={20}
         areaChart
-        startFillColor="rgb(0, 0, 0)"
+        startFillColor="#11A4D4"
         endFillColor="rgb(211, 211, 211)"
         startOpacity={0.7}
         endOpacity={0.1}
-        color="rgb(0, 0, 0)"
+        color="#11A4D4"
+        curvature={0}
+        dataPointsColor1="#11A4D4"
+        xAxisColor={"#11A4D4"}
       />
     </View>
   );

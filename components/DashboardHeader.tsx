@@ -15,12 +15,13 @@ const DashboardHeader = (): React.ReactElement => {
       style={{
         marginTop: Constants.statusBarHeight,
         paddingVertical: 10,
+        backgroundColor: "#101D22",
       }}
       className="px-4 flex flex-row justify-between items-center"
     >
-      <Text className="text-base text-gray-500">
+      <Text className="text-base" style={{ color: "#8796A9" }}>
         Welcome back, {"\n"}
-        <Text className="text-xl font-semibold text-black">{username}</Text>
+        <Text className="text-2xl font-semibold text-white">{username}</Text>
       </Text>
       <SignOutButton />
     </View>

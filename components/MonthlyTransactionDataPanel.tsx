@@ -21,11 +21,19 @@ const MonthlyTransactionDataPanel = ({
   const monthName = date.toLocaleDateString("en-US", { month: "short" });
 
   return (
-    <View className="mb-4 ">
-      <Text className="text-2xl font-semibold text-black">
+    <View
+      className="mb-4 rounded-xl"
+      style={{
+        backgroundColor: "#141A1F",
+        paddingVertical: 10,
+        paddingHorizontal: 12,
+        overflow: "hidden",
+      }}
+    >
+      <Text className="text-2xl  text-white" style={{ fontWeight: "bold" }}>
         RM {getTotalAmount(data)}
       </Text>
-      <Text className="text-base text-gray-600">
+      <Text className="text-base " style={{ color: "#8796A9" }}>
         {`${monthName} ${monthStart.getDate()} - ${monthName} ${monthEnd.getDate()}`}
       </Text>
 

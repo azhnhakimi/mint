@@ -64,7 +64,10 @@ export default function TransactionEdit() {
 
   if (loading) {
     return (
-      <View className="flex-1 justify-center items-center">
+      <View
+        className="flex-1 justify-center items-center"
+        style={{ backgroundColor: "#101D22" }}
+      >
         <ActivityIndicator size="large" />
       </View>
     );
@@ -84,12 +87,15 @@ export default function TransactionEdit() {
         className="flex-1"
         style={{
           paddingHorizontal: 14,
-          marginTop: 20,
           flexDirection: "column",
+          backgroundColor: "#101D22",
         }}
         edges={["top"]}
       >
-        <Text className="text-2xl font-semibold text-black mb-4">
+        <Text
+          className="text-2xl font-semibold text-white mb-4"
+          style={{ marginTop: 20 }}
+        >
           Edit Transaction
         </Text>
 

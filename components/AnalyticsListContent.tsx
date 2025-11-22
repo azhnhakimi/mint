@@ -10,11 +10,13 @@ const AnalyticsListContent = ({
 }: AnalyticsListContentProps) => {
   return (
     <View
-      className="flex-1 justify-center items-center"
+      className="flex-1 justify-center items-center rounded-lg"
       style={{
         paddingVertical: 12,
-        backgroundColor: "#f1f5f9",
         marginVertical: 12,
+        backgroundColor: "#0F172A",
+        borderWidth: 1,
+        borderColor: "#1E2A3C",
       }}
     >
       {categoryTotals.map((item, index) => (
@@ -30,14 +32,14 @@ const AnalyticsListContent = ({
                 borderRadius: 6,
                 backgroundColor: getCategoryColor(item.category),
                 borderWidth: 1,
-                borderColor: "#212122",
+                borderColor: "#8796A9",
               }}
             />
-            <Text style={{ color: "#4b5563" }} className="text-base">
+            <Text style={{ color: "#8796A9" }} className="text-base">
               {formatCategory(item.category)}
             </Text>
           </View>
-          <Text className="text-base" style={{ fontWeight: "600" }}>
+          <Text className="text-base text-white" style={{ fontWeight: "600" }}>
             RM{item.value.toFixed(2)}
           </Text>
         </View>

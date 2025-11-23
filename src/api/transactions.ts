@@ -77,3 +77,14 @@ export const deleteTransaction = async (id: string) => {
 
   return { error };
 };
+
+export async function getLast6MonthsTotals(userId: string) {
+  const now = new Date();
+  const startDate = new Date(now.getFullYear(), now.getMonth() - 5, 1);
+  const { data, error } = await supabase.rpc("monthly_totals", {
+    user_id: userId,
+    start_date: startDate.toISOString().split("T")[0],
+  });
+
+  return { data, error };
+}

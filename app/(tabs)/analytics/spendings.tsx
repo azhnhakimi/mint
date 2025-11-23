@@ -2,11 +2,19 @@ import AnalyticsCategorySpendings from "@/components/AnalyticsCategorySpendings"
 import AnalyticsLatestSpendings from "@/components/AnalyticsLatestSpendings";
 import { mockTransactions } from "@/data/transactionsMockData";
 import { transaction } from "@/types/transaction";
-import { useMemo } from "react";
+import { useAuth } from "@clerk/clerk-expo";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 
+import { getTransactionsByMonth } from "@/src/api/transactions";
+
 const AnalyticsSpendings = () => {
+  const { userId } = useAuth();
   const currentDate = new Date();
+  const [transactions, setTransactions] = useState<transaction[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Filter transactions for the current month
   const filteredTransactions = useMemo(() => {
@@ -19,18 +27,48 @@ const AnalyticsSpendings = () => {
     });
   }, [currentDate]);
 
+  const fetchTransactions = useCallback(async () => {
+    if (!userId) return;
+    setLoading(true);
+    setError(null);
+
+    const { data, error } = await getTransactionsByMonth(
+      userId,
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1
+    );
+
+    if (error) {
+      setError(error.message);
+      setTransactions([]);
+    } else {
+      setTransactions(data || []);
+    }
+    setLoading(false);
+  }, [userId, currentDate]);
+
+  useEffect(() => {
+    fetchTransactions();
+  }, [fetchTransactions]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchTransactions();
+    }, [fetchTransactions])
+  );
+
   const getTotalAmount = (transactions: transaction[]): number => {
     return transactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
   };
 
-  const totalAmount = getTotalAmount(filteredTransactions);
+  const totalAmount = getTotalAmount(transactions);
 
   return (
     <ScrollView
       style={{ padding: 8, flex: 1, backgroundColor: "#101D22" }}
       showsVerticalScrollIndicator={false}
     >
-      <AnalyticsLatestSpendings data={mockTransactions} />
+      <AnalyticsLatestSpendings />
 
       <View
         style={{
@@ -53,7 +91,7 @@ const AnalyticsSpendings = () => {
 
       <AnalyticsCategorySpendings
         currentDate={currentDate}
-        transactions={filteredTransactions}
+        transactions={transactions}
       />
     </ScrollView>
   );

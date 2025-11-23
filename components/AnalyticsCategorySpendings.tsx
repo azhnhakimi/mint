@@ -86,12 +86,25 @@ const AnalyticsCategorySpendings = ({
             </TabsTrigger>
           </TabsList>
         </View>
-        <TabsContent value="list">
-          <AnalyticsListContent categoryTotals={categoryTotals} />
-        </TabsContent>
-        <TabsContent value="pie">
-          <AnalyticsPieContent categoryTotals={categoryTotals} />
-        </TabsContent>
+        {categoryTotals.length > 0 ? (
+          <>
+            <TabsContent value="list">
+              <AnalyticsListContent categoryTotals={categoryTotals} />
+            </TabsContent>
+            <TabsContent value="pie">
+              <AnalyticsPieContent categoryTotals={categoryTotals} />
+            </TabsContent>
+          </>
+        ) : (
+          <View
+            className="flex justify-center items-center"
+            style={{ padding: 32 }}
+          >
+            <Text className="" style={{ color: "#8796A9" }}>
+              No transactions data to display...
+            </Text>
+          </View>
+        )}
       </View>
     </Tabs>
   );

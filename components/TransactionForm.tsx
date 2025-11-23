@@ -158,7 +158,7 @@ const TransactionForm = ({
         />
 
         <TouchableOpacity
-          style={styles.button}
+          style={[styles.button]}
           onPress={() =>
             onSubmit({
               name: name.trim(),
@@ -168,6 +168,7 @@ const TransactionForm = ({
               details,
             })
           }
+          className="rounded-lg"
         >
           <Text style={styles.buttonText}>
             {initialData?.id ? "Save" : "Create"}

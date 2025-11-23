@@ -3,7 +3,8 @@ import {
   getCategoryColor,
   getCategoryIcon,
 } from "@/constants/categories";
-import { mockTransactions } from "@/data/transactionsMockData";
+import { transaction } from "@/types/transaction";
+import { useAuth } from "@clerk/clerk-expo";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   BottomSheetFlatList,
@@ -11,7 +12,8 @@ import {
   BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
 import { format } from "date-fns";
-import { useMemo, useRef, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -21,14 +23,22 @@ import {
 } from "react-native";
 import { PieChart } from "react-native-gifted-charts";
 
-const currentYear = new Date().getFullYear();
-const currentMonth = new Date().getMonth();
+import { getTransactionsByMonth } from "@/src/api/transactions";
+
+const currentDate = new Date();
+const currentYear = currentDate.getFullYear();
+const currentMonth = currentDate.getMonth();
 const YEARS = Array.from({ length: 31 }, (_, i) => currentYear - 15 + i);
 const MONTHS = Array.from({ length: 12 }, (_, i) => i); // 0-11
 
 export default function AnalyticsArchives() {
+  const { userId } = useAuth();
+
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+  const [transactions, setTransactions] = useState<transaction[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // bottom sheet refs
   const yearSheetRef = useRef<BottomSheetModal>(null);
@@ -37,37 +47,58 @@ export default function AnalyticsArchives() {
   const openYearSheet = () => yearSheetRef.current?.present();
   const openMonthSheet = () => monthSheetRef.current?.present();
 
-  // FILTERED TRANSACTIONS
-  const filteredTransactions = useMemo(() => {
-    return mockTransactions.filter((tx) => {
-      const d = tx.date;
-      return d.getFullYear() === selectedYear && d.getMonth() === selectedMonth;
-    });
-  }, [selectedYear, selectedMonth]);
-
   // TOTAL AMOUNT
   const totalAmount = useMemo(() => {
-    return filteredTransactions.reduce(
-      (sum, tx) => sum + parseFloat(tx.amount),
-      0
+    return transactions.reduce((sum, tx) => sum + parseFloat(tx.amount), 0);
+  }, [transactions]);
+
+  const fetchTransactions = useCallback(async () => {
+    if (!userId) return;
+    setLoading(true);
+    setError(null);
+
+    const { data, error } = await getTransactionsByMonth(
+      userId,
+      selectedYear,
+      selectedMonth + 1
     );
-  }, [filteredTransactions]);
+
+    if (error) {
+      setError(error.message);
+      setTransactions([]);
+    } else {
+      setTransactions(data || []);
+    }
+    setLoading(false);
+  }, [userId, selectedYear, selectedMonth]);
+
+  useEffect(() => {
+    fetchTransactions();
+  }, [fetchTransactions]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchTransactions();
+    }, [fetchTransactions])
+  );
 
   // handlers when user selects year/month
   const onSelectYear = (year: number) => {
     setSelectedYear(year);
     yearSheetRef.current?.dismiss();
+    fetchTransactions();
   };
 
   const onSelectMonth = (month: number) => {
     setSelectedMonth(month);
     monthSheetRef.current?.dismiss();
+    fetchTransactions();
   };
 
   const categoryTotals = useMemo(() => {
     const totals: Record<string, number> = {};
 
-    filteredTransactions.forEach((t) => {
+    transactions.forEach((t) => {
       if (!totals[t.category]) totals[t.category] = 0;
       totals[t.category] += parseFloat(t.amount);
     });
@@ -75,7 +106,7 @@ export default function AnalyticsArchives() {
     return Object.entries(totals)
       .map(([category, value]) => ({ category, value }))
       .sort((a, b) => b.value - a.value);
-  }, [filteredTransactions]);
+  }, [transactions]);
 
   const pieChartData = useMemo(
     () =>
@@ -172,7 +203,18 @@ export default function AnalyticsArchives() {
           className="flex justify-center items-center"
           style={{ marginVertical: 20 }}
         >
-          <PieChart data={pieChartData} radius={80} />
+          {pieChartData.length > 0 ? (
+            <PieChart data={pieChartData} radius={80} />
+          ) : (
+            <View
+              className="flex justify-center items-center"
+              style={{ padding: 32 }}
+            >
+              <Text className="" style={{ color: "#8796A9" }}>
+                No transactions data to display...
+              </Text>
+            </View>
+          )}
         </View>
 
         <View

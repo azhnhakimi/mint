@@ -1,14 +1,15 @@
 import { useAuth, useSignIn } from "@clerk/clerk-expo";
+import Constants from "expo-constants";
 import { Link, useRouter } from "expo-router";
 import { useState } from "react";
 import {
   ActivityIndicator,
-  Alert,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+import { showMessage } from "react-native-flash-message";
 
 export default function SignInScreen() {
   const { isLoaded: authIsLoaded } = useAuth();
@@ -39,6 +40,30 @@ export default function SignInScreen() {
   const onSignInPress = async () => {
     setLoading(true);
 
+    if (identifier.trim() === "") {
+      showMessage({
+        message: "Error",
+        description: "Username or email is required!",
+        type: "danger",
+        statusBarHeight: Constants.statusBarHeight,
+        backgroundColor: "#ff0000",
+      });
+      setLoading(false);
+      return;
+    }
+
+    if (password.trim() === "") {
+      showMessage({
+        message: "Error",
+        description: "Password is required!",
+        type: "danger",
+        statusBarHeight: Constants.statusBarHeight,
+        backgroundColor: "#ff0000",
+      });
+      setLoading(false);
+      return;
+    }
+
     try {
       const result = await signIn.create({
         identifier,
@@ -51,7 +76,13 @@ export default function SignInScreen() {
       }
     } catch (err: any) {
       console.log("SignIn Error:", err);
-      Alert.alert("Error", err.errors?.[0]?.message || "Invalid credentials.");
+      showMessage({
+        message: "Error",
+        description: err.errors?.[0]?.message || "Invalid credentials.",
+        type: "danger",
+        statusBarHeight: Constants.statusBarHeight,
+        backgroundColor: "#ff0000",
+      });
     } finally {
       setLoading(false);
     }

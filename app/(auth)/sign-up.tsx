@@ -1,14 +1,15 @@
 import { useSignUp } from "@clerk/clerk-expo";
+import Constants from "expo-constants";
 import { Link, useRouter } from "expo-router";
 import { useState } from "react";
 import {
   ActivityIndicator,
-  Alert,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+import { showMessage } from "react-native-flash-message";
 
 export default function SignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -43,8 +44,47 @@ export default function SignUpScreen() {
   const onSignUpPress = async () => {
     if (loading) return;
 
+    if (username.trim() === "") {
+      showMessage({
+        message: "Error",
+        description: "Username is required!",
+        type: "danger",
+        statusBarHeight: Constants.statusBarHeight,
+        backgroundColor: "#ff0000",
+      });
+      return;
+    }
+
+    if (emailAddress.trim() === "") {
+      showMessage({
+        message: "Error",
+        description: "Email is required!",
+        type: "danger",
+        statusBarHeight: Constants.statusBarHeight,
+        backgroundColor: "#ff0000",
+      });
+      return;
+    }
+
+    if (password.trim() === "") {
+      showMessage({
+        message: "Error",
+        description: "Password is required!",
+        type: "danger",
+        statusBarHeight: Constants.statusBarHeight,
+        backgroundColor: "#ff0000",
+      });
+      return;
+    }
+
     if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords do not match.");
+      showMessage({
+        message: "Error",
+        description: "Passwords do not match!",
+        type: "danger",
+        statusBarHeight: Constants.statusBarHeight,
+        backgroundColor: "#ff0000",
+      });
       return;
     }
 
@@ -63,10 +103,22 @@ export default function SignUpScreen() {
       }
     } catch (err: any) {
       console.log("Signup error:", err);
-      Alert.alert(
-        "Error",
-        err.errors?.[0]?.message || "Something went wrong during sign-up."
-      );
+
+      const errorMessage =
+        err?.errors?.[0]?.longMessage ||
+        err?.errors?.[0]?.message ||
+        err?.[0]?.longMessage ||
+        err?.[0]?.message ||
+        err?.message ||
+        "Something went wrong during sign-up.";
+
+      showMessage({
+        message: "Error",
+        description: errorMessage,
+        type: "danger",
+        statusBarHeight: Constants.statusBarHeight,
+        backgroundColor: "#ff0000",
+      });
     } finally {
       setLoading(false);
     }

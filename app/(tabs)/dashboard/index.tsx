@@ -1,6 +1,5 @@
 import CategoryProgressBar from "@/components/CategoryProgressBar";
 import WeeklySpendingTrends from "@/components/WeeklySpendingTrends";
-import { mockTransactions } from "@/data/transactionsMockData";
 import { transaction } from "@/types/transaction";
 import { useAuth } from "@clerk/clerk-expo";
 import { useFocusEffect } from "expo-router";
@@ -15,6 +14,7 @@ import {
   View,
 } from "react-native";
 
+import DashboardHeader from "@/components/DashboardHeader";
 import { getTransactionsByMonth } from "@/src/api/transactions";
 
 if (
@@ -33,17 +33,6 @@ const DashboardIndex = () => {
   const currentMonthName = currentDate.toLocaleString("default", {
     month: "long",
   });
-
-  // Filter transactions for the current month
-  const filteredTransactions = useMemo(() => {
-    return mockTransactions.filter((t) => {
-      const d = new Date(t.date);
-      return (
-        d.getMonth() === currentDate.getMonth() &&
-        d.getFullYear() === currentDate.getFullYear()
-      );
-    });
-  }, [currentDate]);
 
   const fetchTransactions = useCallback(async () => {
     if (!userId) return;
@@ -108,6 +97,7 @@ const DashboardIndex = () => {
   return (
     <View className="flex-1" style={{ backgroundColor: "#101D22" }}>
       <ScrollView className="flex-1 px-4" showsVerticalScrollIndicator={false}>
+        <DashboardHeader />
         {/* TOTAL AMOUNT */}
         <View
           style={{

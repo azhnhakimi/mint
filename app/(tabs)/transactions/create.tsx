@@ -21,6 +21,7 @@ const TransactionCreate = () => {
         description: "Name is required!",
         type: "danger",
         statusBarHeight: Constants.statusBarHeight,
+        backgroundColor: "#ff0000",
       });
       return;
     }
@@ -31,6 +32,7 @@ const TransactionCreate = () => {
         description: "Amount is required!",
         type: "danger",
         statusBarHeight: Constants.statusBarHeight,
+        backgroundColor: "#ff0000",
       });
       return;
     }
@@ -41,6 +43,7 @@ const TransactionCreate = () => {
         description: "Please enter a valid amount!",
         type: "danger",
         statusBarHeight: Constants.statusBarHeight,
+        backgroundColor: "#ff0000",
       });
       return;
     }
@@ -51,6 +54,7 @@ const TransactionCreate = () => {
         description: "Amount must be greater than 0!",
         type: "danger",
         statusBarHeight: Constants.statusBarHeight,
+        backgroundColor: "#ff0000",
       });
       return;
     }
@@ -61,6 +65,7 @@ const TransactionCreate = () => {
         description: "Please select a category!",
         type: "danger",
         statusBarHeight: Constants.statusBarHeight,
+        backgroundColor: "#ff0000",
       });
       return;
     }
@@ -83,6 +88,7 @@ const TransactionCreate = () => {
         description: "Something went wrong saving the transaction.",
         type: "danger",
         statusBarHeight: Constants.statusBarHeight,
+        backgroundColor: "#ff0000",
       });
       return;
     }
@@ -92,6 +98,7 @@ const TransactionCreate = () => {
       description: "Transaction added successfully!",
       type: "success",
       statusBarHeight: Constants.statusBarHeight,
+      backgroundColor: "#198754",
     });
     router.back();
   };

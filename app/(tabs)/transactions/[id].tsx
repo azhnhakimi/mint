@@ -55,6 +55,7 @@ export default function TransactionDetailScreen() {
         description: "Something went wrong deleting the transaction.",
         type: "danger",
         statusBarHeight: Constants.statusBarHeight,
+        backgroundColor: "#ff0000",
       });
       return;
     }
@@ -64,6 +65,7 @@ export default function TransactionDetailScreen() {
       description: "Transaction deleted successfully!",
       type: "success",
       statusBarHeight: Constants.statusBarHeight,
+      backgroundColor: "#198754",
     });
 
     router.replace("/(tabs)/transactions");

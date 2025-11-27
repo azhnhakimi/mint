@@ -31,7 +31,7 @@ const BudgetIndex = () => {
           color: "#8796A9",
         }}
       >
-        Stay Tuned.
+        Stay Tuned. TESTING OTA UPDATES
       </Text>
     </SafeAreaView>
   );

@@ -52,6 +52,10 @@
         "projectId": "0a3e97c4-f8c9-4842-b460-5bef6d94a2d2"
       }
     },
-    "owner": "azhnhakimi"
+    "owner": "azhnhakimi",
+    "runtimeVersion": "1.0.0",
+    "updates": {
+      "url": "https://u.expo.dev/0a3e97c4-f8c9-4842-b460-5bef6d94a2d2"
+    }
   }
 }

@@ -9,7 +9,7 @@ const ICON_SIZE = 22;
 
 export default function TabLayout() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView>
       <Tabs
         screenOptions={{
           headerShown: false,

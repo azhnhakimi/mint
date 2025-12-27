@@ -48,6 +48,16 @@ export default function TabLayout() {
             tabBarIcon: ({ color, size }) => (
               <FontAwesome5 name="chart-pie" size={ICON_SIZE} color={color} />
             ),
+            href: null,
+          }}
+        />
+        <Tabs.Screen
+          name="debts"
+          options={{
+            title: "Debts",
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name="payments" size={ICON_SIZE} color={color} />
+            ),
           }}
         />
         <Tabs.Screen
